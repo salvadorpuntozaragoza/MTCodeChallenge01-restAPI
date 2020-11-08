@@ -1,0 +1,42 @@
+GET http://localhost:3000/users/
+Content-Type: application/json
+access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNjA0NjI1MzkwLCJleHAiOjE2MDQ2MzU0NzB9.epGGL6BwYm1MjVoKeeYba0kmcz9m5CXRl3FegAFbwZQ
+###
+GET http://localhost:3000/users/5fa0a96c5e5749161472b391
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{  
+  "name": "Jose Guillermo Mendoza Perez",
+  "email": "jmendozaaaaaa@arkusnexus.com",
+  "password": "arkus@1234"
+}
+###
+DELETE http://localhost:3000/users/5fa0a96c5e5749161472b391
+###
+PATCH http://localhost:3000/users/5fa0b00788eaca378469edf4
+Content-Type: application/json
+
+{
+  "password": "arkus@123"
+}
+###
+GET http://localhost:3000/courses/
+###
+POST http://localhost:3000/courses/
+Content-Type: application/json
+
+{
+  "courseName": "Link to google mexico",
+  "accessLink": "www.google.com.mx",
+  "description": "Most popular search engine"
+}
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "jmendozaaaaaa@arkusnexus.com",
+  "password": "arkus@1234"
+}
