@@ -9,8 +9,7 @@ Content-Type: application/json
 
 {  
   "name": "Jose Guillermo Mendoza Perez",
-  "email": "jmendozaaaaaa@arkusnexus.com",
-  "password": "arkus@1234"
+  "email": "jmendozaa@arkusnexus.com"
 }
 ###
 DELETE http://localhost:3000/users/5fa0a96c5e5749161472b391
@@ -23,14 +22,15 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:3000/courses/
+# access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNjA0NzA0MTIzLCJleHAiOjE2MDQ3MTQyMDN9.H0hKlmzfwj7Z7uWTPVlI8aSD4lLYnUxFoDULHm2_BZY
 ###
 POST http://localhost:3000/courses/
 Content-Type: application/json
 
 {
-  "courseName": "Link to google mexico",
-  "accessLink": "www.google.com.mx",
-  "description": "Most popular search engine"
+  "courseName": "Github from zero to hero",
+  "accessLink": "www.udemy.com.mx",
+  "description": "Learn All concepts of git and become a pro"
 }
 ###
 POST http://localhost:3000/users/login
@@ -38,5 +38,8 @@ Content-Type: application/json
 
 {
   "email": "jmendozaaaaaa@arkusnexus.com",
-  "password": "arkus@1234"
+  "password": "arkus@12"
 }
+###
+GET http://localhost:3000/coursesTaken
+Content-Type: application/json

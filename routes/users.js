@@ -5,6 +5,7 @@ const User = require('../models/user');
 const secrets = require('../secrets');
 const jwt = require('jsonwebtoken');
 const auth = require('../middlewares/routeAuthorization');
+const Logger = require('../middlewares/logger');
 
 // GET ALL
 router.get('/', async  (req, res) => {
@@ -12,10 +13,16 @@ router.get('/', async  (req, res) => {
     const user = await User.find();
     res.json(user);
   } catch(error) {
+    Logger.logError("Server", "No body due to get request", error.message);
     console.log('Catched error in server: ', error)
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get('/authorize', auth, (req, res) => {
+  console.log("Authorized");
+  return res.status(200).json({ data: null, isValid: true, success: true, message: '' });
+})
 
 // LOG IN USERS
 router.post('/login', async (req, res) => {
@@ -26,9 +33,11 @@ router.post('/login', async (req, res) => {
     });
     console.log(user);
     if(user == null) {
+      Logger.logError("Bad request", req.body, "User not found");
       return res.status(404).json({ data: null, isValid: true, message: 'User not found', success: false }); 
     }
     if (user.length == 0) {
+      Logger.logError("Bad request", req.body, "User not found");
       return res.status(404).json({ data: null, isValid: true, message: 'User not found', success: false });
     }
     const match = await bcrypt.compare(req.body.password, user.password);
@@ -36,15 +45,16 @@ router.post('/login', async (req, res) => {
       const token = jwt.sign({ check: true }, secrets.KEY, { expiresIn: 1440 * 7 })
       return res.status(200).json({ data: user, isValid: true, message: '', success: true, token });
     }
+    Logger.logError("Bad request", req.body, "Invalid password");
     return res.status(404).json({ data: null, isValid: true, message: 'Invalid password', success: false })
   } catch (error) {
-    console.log(error);
+    Logger.logError("Server", req.body, error.message);
     return res.status(500).json({ data: null, isValid: false, message: 'An error ocurred, try again later.', success: false });
   }
 })
 
 //CREATING ONE
-router.post('/', emailAvailable, async (req, res) => {
+router.post('/register', emailAvailable, async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, secrets.SALT_ROUNDS);
   const user = new User({
     name: req.body.name,
@@ -57,6 +67,7 @@ router.post('/', emailAvailable, async (req, res) => {
     const token = jwt.sign({ check: true }, secrets.KEY, { expiresIn: 1440 * 7 });
     res.status(201).json({ data: newUser, isValid: true, message: '', success: true, token });
   } catch (error) {
+    Logger.logError("Server", req.body, error.message);
     res.status(400).json({ data: null, isValid: false,  message: 'An error ocurred, try again later.', success: false });
   }
 });
@@ -66,27 +77,14 @@ async function emailAvailable(req, res, next) {
   try {
     user = await User.find({ email: req.body.email })
     if (user.length != 0) {
-      return res.status(400).json({ data: null, isValid: true, message: 'Email already in use', success: false })
+      Logger.logError("Bad request", req.body, "Email already in use");
+      return res.status(400).json({ data: null, isValid: true, message: 'Email already in use', success: false });
     }
   } catch (error) {
-    return res.status(500).json({ data: null, isValid: false, message: 'An error ocurred, try again later.', success: false })
+    Logger.logError("Server", req.body, error.message);
+    return res.status(500).json({ data: null, isValid: false, message: 'An error ocurred, try again later.', success: false });
   }
 
-  next();
-}
-
-async function getUser(req, res, next) {
-  let user;
-  try {
-    user = await User.findById(req.params.id)
-    if (user == null) {
-      return res.status(404).json({ data: null, isValid: true, message: 'User not found', success: false });
-    }
-  } catch (error) {
-    return res.status(500).json({ data: null, isValid: false, message: error.message, success: false });
-  }
-
-  res.user = user;
   next();
 }
 

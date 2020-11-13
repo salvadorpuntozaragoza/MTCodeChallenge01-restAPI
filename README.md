@@ -1,0 +1,1 @@
+### View documentation at https://app.swaggerhub.com/apis/MindTeam5/Course-training/1.0.0#/
