@@ -6,7 +6,7 @@ const auth = require('../middlewares/routeAuthorization');
 const Logger = require('../middlewares/logger');
 
 // GET ALL
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
   try{
     const courseTaken = await CourseTaken.find();
     res.status(200).json({ data: courseTaken, isValid: true, success: true, message: '' });
@@ -18,7 +18,6 @@ router.get('/', auth, async (req, res) => {
 
 //CREATING ONE
 router.post('/', auth, async (req, res) => {
-  console.log('Request received: ', req.body);
   const courseTaken = new CourseTaken({
     userId: req.body.userId,
     userName: req.body.userName,

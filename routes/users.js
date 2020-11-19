@@ -14,24 +14,20 @@ router.get('/', async  (req, res) => {
     res.json(user);
   } catch(error) {
     Logger.logError("Server", "No body due to get request", error.message);
-    console.log('Catched error in server: ', error)
     res.status(500).json({ message: error.message });
   }
 });
 
 router.get('/authorize', auth, (req, res) => {
-  console.log("Authorized");
   return res.status(200).json({ data: null, isValid: true, success: true, message: '' });
 })
 
 // LOG IN USERS
 router.post('/login', async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
-    console.log(user);
     if(user == null) {
       Logger.logError("Bad request", req.body, "User not found");
       return res.status(404).json({ data: null, isValid: true, message: 'User not found', success: false }); 

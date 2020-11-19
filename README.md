@@ -1,1 +1,9 @@
 ### View documentation at https://app.swaggerhub.com/apis/MindTeam5/Course-training/1.0.0#/
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNjA1NTY2NzQwLCJleHAiOjE2MDU1NzY4MjB9.1IwfeyKY2QlwUt3g1taiveS4ThqHkUVNeZFqIq1IBBs
+
+user 5fa5d847eb9a4632ec7b4c74
+course 5fa58b9bcebd08242c3ae44c
+
+courseTaken 5fa863906f4bd41d703aae2b
+
+5fb3081eb3d3ea08a0cab0a4
