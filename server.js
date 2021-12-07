@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const secrets = require('./secrets');
 const app = express();
 
+const testingRoutes = require('./routes/testingRoutes');
 const userRoutes = require('./routes/users');
 const courseRoutes = require('./routes/courses');
 const courseTakenRoutes = require('./routes/coursesTaken');
@@ -21,6 +22,7 @@ db.once('open', () => console.log('Conected to database'));
 app.use(express.json());
 app.set('key', secrets.KEY);
 
+app.use('/', testingRoutes)
 app.use('/users', userRoutes);
 app.use('/courses', courseRoutes);
 app.use('/coursesTaken', courseTakenRoutes);
